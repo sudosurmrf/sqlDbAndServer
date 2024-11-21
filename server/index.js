@@ -43,23 +43,23 @@ app.get('/api/users/:id/favorites', async (req, res, next) => {
     }
 });
 
-app.delete('/api/users/:userId/favorites/:id', async (req, res, next) => {
-    const { id } = req.params;
+app.delete('/api/users/:username/favorites/:productname', async (req, res, next) => {
+    const { username, productname } = req.params;
     try {
-        await destroyFavorites({ favorites_id: id });
-        res.sendStatus(204);
+        await destroyFavorite({ username, productname });
+        res.status(201).send({message: 'Deleted!'})
     }
     catch (err) {
         next(err);
     }
 });
 
-app.post('/api/users/:id/favorites', async (req, res, next) => {
-    const { user_id } = req.params;
-    const { product_id } = req.body;
+app.post('/api/users/:username/favorites', async (req, res, next) => {
+    const { username } = req.params;
+    const { productName } = req.body;
 
     try {
-        res.status(201).send(await createFavorite({ user_id, product_id }));
+        res.status(201).send(await createFavorite({ username, productName}));
     }
     catch (err) {
         next(err);
@@ -78,7 +78,7 @@ const init = async () => {
         createUser({ username: 'Jim', password: 'hello' }),
         createProduct({ name: 'Car' }),
         createProduct({ name: 'Computer' }),
-        createProduct({ name: 'Smart Phone' }),
+        createProduct({ name: 'smart phone' }),
 
     ]);
 

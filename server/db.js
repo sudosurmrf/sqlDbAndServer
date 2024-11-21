@@ -100,13 +100,13 @@ const fetchFavorites = async (user_id) => {
     return response.rows;
 };
 
-const destroyFavorite = async ({ user_id, id }) => {
+const destroyFavorite = async ({ username,productname }) => {
     const SQL = `
-      DELETE
-      FROM product_id
-      WHERE user_id = $1 AND id = $2
+      DELETE FROM favorites
+      WHERE username = $1 AND productname = $2
     `;
-    await client.query(SQL, [user_id, id]);
+    const response = await client.query(SQL, [username, productname]);
+    return response
 };
 
 
